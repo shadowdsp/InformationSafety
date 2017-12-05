@@ -1,11 +1,14 @@
 package cryptography.model;
 
 public class Playfair {
+    // 相同或者不足插入的字符,因为正常的Playfair存在缺陷,所以要再加一个候补的字母
     private char []ins = {'k', 'a'};
+    // 密钥
+    public String key1;
 
     private char[][] getKey(String key) {
         char [][]mat = new char[5][5];
-        String key1 = key.toUpperCase();
+        key1 = key.toUpperCase();
         int []Hash = new int[25];
         int now = 0;
         int len = key1.length();
@@ -29,16 +32,11 @@ public class Playfair {
             }
         }
         return mat;
-//        for(int i = 0; i < 5; i++) {
-//            for(int j = 0; j < 5; j++) {
-//                System.out.print(mat[i][j]);
-//            }
-//            System.out.println();
-//        }
     }
 
     // 加密
     public String encrypt(String plaintext) {
+        this.key1 = "monarchy";
         char [][]mat = getKey("monarchy");
         // 消除空格
         plaintext = plaintext.replace(" ", "");

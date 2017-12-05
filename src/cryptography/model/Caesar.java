@@ -1,10 +1,15 @@
 package cryptography.model;
 
-public class Caesar {
+import java.util.Random;
 
+public class Caesar {
+    // 加密时候随机得到的密钥
+    public int key;
     // 加密
     public String encrypt(String plaintext) {
-        return solve(plaintext, 3, 0);
+        Random random = new Random();
+        this.key = random.nextInt(26);
+        return solve(plaintext, this.key, 0);
     }
 
     // 解密
@@ -13,6 +18,7 @@ public class Caesar {
     }
 
     private String solve(String text, int key, int type) {
+        key %= 26;
         StringBuilder sb = new StringBuilder();
         text = text.replace(" ", "");
         text = text.toUpperCase();
