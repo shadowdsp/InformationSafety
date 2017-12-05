@@ -1,8 +1,11 @@
 package cryptography.model;
 
 import Jama.Matrix;
+import org.junit.Test;
 
+import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Hill {
     // 最终的矩阵
@@ -40,9 +43,7 @@ public class Hill {
         }
     }
 
-    // type为0代表加密,直接返回密文,为1代表解密,返回明文的时候要注意把后面补上的X去掉
-    private String solve(String text, Matrix matrix, int type) {
-        StringBuilder sb = new StringBuilder();
+    private String solve(String text, Matrix matrix) {
         text = text.replace(" ", "");
         text = text.toUpperCase();
         int len = text.length();
@@ -56,25 +57,25 @@ public class Hill {
         } else {
             rem = 0;
         }
-        int []c = new int[3];
-        int []p = new int[3];
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < len + rem; i += 3) {
-            c[0] = c[1] = c[2] = 0;
+            // 按照Hill算法计算
+            int []p = new int[3];
             p[0] = text.charAt(i) - 'A';
             p[1] = text.charAt(i+1) - 'A';
             p[2] = text.charAt(i+2) - 'A';
-            // 按照Hill算法计算
             for(int j = 0; j < 3; j++) {
+                int c = 0;
                 for(int k = 0; k < 3; k++) {
-                    c[j] += p[k] * matrix.get(j, k);
+                    DecimalFormat df = new DecimalFormat("######0");
+                    c += p[k] * Integer.parseInt(df.format(new Double(matrix.get(j,k))));
                 }
-                c[j] = (c[j] % 26 + 26) % 26;
+                c = (c % 26 + 26) % 26;
                 // 插入到答案中
-                sb.append((char)(c[j] + 'A'));
+                sb.append((char)(c + 'A'));
             }
         }
-        if(type == 0) return sb.toString();
-        else return sb.toString().substring(0, len);
+        return sb.toString();
     }
 
     // 加密
@@ -85,12 +86,24 @@ public class Hill {
         this.ansmat = matrix.getArray();
         // 得到最终矩阵的逆
         this.invmat = matrix.inverse().getArray();
-        return solve(plaintext, matrix, 0);
+        return solve(plaintext, matrix);
     }
 
     // 解密
     public String decrypt(String ciphertext, double [][]mat) {
         Matrix matrix = new Matrix(mat);
-        return solve(ciphertext, matrix, 1);
+        return solve(ciphertext, matrix.inverse());
+    }
+
+    @Test
+    public void fun1() {
+        int cnt = 0;
+        for(int i = 0; i < 100; i++) {
+            String pre = "paymoremoney";
+            String cipher = encrypt(pre);
+            String plain = decrypt(cipher, this.ansmat);
+            if(pre.equalsIgnoreCase(plain)) cnt++;
+        }
+        System.out.println(cnt);
     }
 }

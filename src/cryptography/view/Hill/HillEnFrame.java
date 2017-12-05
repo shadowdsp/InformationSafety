@@ -1,5 +1,6 @@
 package cryptography.view.Hill;
 
+import Jama.Matrix;
 import cryptography.model.Hill;
 import cryptography.model.regExCheck;
 
@@ -9,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class HillEnFrame {
     private JPanel hillen;
-    private JTextField plaintextField;
-    private JTextField ciptextField;
+    private JTextArea plaintextArea;
+    private JTextArea ciptextArea;
     private JButton beginbutton;
     private JTextField mat00textField;
     private JTextField mat10textField;
@@ -45,7 +46,7 @@ public class HillEnFrame {
         beginbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String plain = plaintextField.getText();
+                String plain = plaintextArea.getText();
                 // 明文必须是纯字母
                 if(!regExCheck.checkCh(plain)) {
                     JOptionPane.showMessageDialog(null, "明文必须是纯字母", "明文警告", JOptionPane.ERROR_MESSAGE);
@@ -54,31 +55,36 @@ public class HillEnFrame {
                     // 加密算法
                     String cipher = hill.encrypt(plain);
 
-                    ciptextField.setText(cipher);
+                    ciptextArea.setText(cipher);
 
                     // 得到加密的矩阵
                     double [][]mat = hill.ansmat;
-                    mat00textField.setText(String.valueOf((int)((mat[0][0] % 26 + 26)) % 26));
-                    mat01textField.setText(String.valueOf((int)((mat[0][1] % 26 + 26)) % 26));
-                    mat02textField.setText(String.valueOf((int)((mat[0][2] % 26 + 26)) % 26));
-                    mat10textField.setText(String.valueOf((int)((mat[1][0] % 26 + 26)) % 26));
-                    mat11textField.setText(String.valueOf((int)((mat[1][1] % 26 + 26)) % 26));
-                    mat12textField.setText(String.valueOf((int)((mat[1][2] % 26 + 26)) % 26));
-                    mat20textField.setText(String.valueOf((int)((mat[2][0] % 26 + 26)) % 26));
-                    mat21textField.setText(String.valueOf((int)((mat[2][1] % 26 + 26)) % 26));
-                    mat22textField.setText(String.valueOf((int)((mat[2][2] % 26 + 26)) % 26));
+                    Matrix one = new Matrix(mat);
+                    System.out.println("----***----");
+                    one.print(4, 0);
+                    mat00textField.setText(String.valueOf((int)mat[0][0]));
+                    mat01textField.setText(String.valueOf((int)mat[0][1]));
+                    mat02textField.setText(String.valueOf((int)mat[0][2]));
+                    mat10textField.setText(String.valueOf((int)mat[1][0]));
+                    mat11textField.setText(String.valueOf((int)mat[1][1]));
+                    mat12textField.setText(String.valueOf((int)mat[1][2]));
+                    mat20textField.setText(String.valueOf((int)mat[2][0]));
+                    mat21textField.setText(String.valueOf((int)mat[2][1]));
+                    mat22textField.setText(String.valueOf((int)mat[2][2]));
 
                     // 得到加密矩阵的逆矩阵，方便验证
                     mat = hill.invmat;
-                    invmat00textField.setText(String.valueOf((int)((mat[0][0] % 26 + 26)) % 26));
-                    invmat01textField.setText(String.valueOf((int)((mat[0][1] % 26 + 26)) % 26));
-                    invmat02textField.setText(String.valueOf((int)((mat[0][2] % 26 + 26)) % 26));
-                    invmat10textField.setText(String.valueOf((int)((mat[1][0] % 26 + 26)) % 26));
-                    invmat11textField.setText(String.valueOf((int)((mat[1][1] % 26 + 26)) % 26));
-                    invmat12textField.setText(String.valueOf((int)((mat[1][2] % 26 + 26)) % 26));
-                    invmat20textField.setText(String.valueOf((int)((mat[2][0] % 26 + 26)) % 26));
-                    invmat21textField.setText(String.valueOf((int)((mat[2][1] % 26 + 26)) % 26));
-                    invmat22textField.setText(String.valueOf((int)((mat[2][2] % 26 + 26)) % 26));
+                    Matrix two = new Matrix(mat);
+                    two.print(4, 0);
+                    invmat00textField.setText(String.valueOf((((int)mat[0][0] % 26 + 26)) % 26));
+                    invmat01textField.setText(String.valueOf((((int)mat[0][1] % 26 + 26)) % 26));
+                    invmat02textField.setText(String.valueOf((((int)mat[0][2] % 26 + 26)) % 26));
+                    invmat10textField.setText(String.valueOf((((int)mat[1][0] % 26 + 26)) % 26));
+                    invmat11textField.setText(String.valueOf((((int)mat[1][1] % 26 + 26)) % 26));
+                    invmat12textField.setText(String.valueOf((((int)mat[1][2] % 26 + 26)) % 26));
+                    invmat20textField.setText(String.valueOf((((int)mat[2][0] % 26 + 26)) % 26));
+                    invmat21textField.setText(String.valueOf((((int)mat[2][1] % 26 + 26)) % 26));
+                    invmat22textField.setText(String.valueOf((((int)mat[2][2] % 26 + 26)) % 26));
                 }
             }
         });

@@ -9,19 +9,19 @@ import java.awt.event.ActionListener;
 
 public class CaesarDeFrame {
     private JPanel caesarde;
-    private JTextField plainTextField;
     private JTextField keytextField;
     private JLabel cipJLabel;
     private JLabel keyJLabel;
     private JLabel plainJLabel;
-    private JTextField ciptextField;
+    private JTextArea ciptextArea;
     private JButton solveButton;
+    private JTextArea plaintextArea;
 
     private CaesarDeFrame() {
         solveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cipher = ciptextField.getText();
+                String cipher = ciptextArea.getText();
                 String key = keytextField.getText();
 
                 if(!regExCheck.checkCh(cipher)) { // 密文必须是纯字母
@@ -31,7 +31,7 @@ public class CaesarDeFrame {
                 } else {
                     Caesar caesar = new Caesar();
                     String plain = caesar.decrypt(cipher, Integer.parseInt(key));
-                    plainTextField.setText(plain);
+                    plaintextArea.setText(plain);
                 }
             }
         });
@@ -40,10 +40,9 @@ public class CaesarDeFrame {
     public static void main(String[] args) {
         JFrame frame = new JFrame("CaesarDeFrame");
         frame.setLocation(550, 400);
-        frame.setSize(500, 200);
+        frame.setSize(700, 500);
         frame.setContentPane(new CaesarDeFrame().caesarde);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//        frame.pack();
         frame.setVisible(true);
     }
 }

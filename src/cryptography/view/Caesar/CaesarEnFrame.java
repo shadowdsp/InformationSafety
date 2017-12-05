@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CaesarEnFrame {
-    private JTextField plaintextField;
-    private JTextField ciptextField;
+    private JTextArea plaintextArea;
+    private JTextArea ciptextArea;
     private JLabel cipLable;
     private JLabel plaintextLable;
     private JButton checkButton;
@@ -21,13 +21,13 @@ public class CaesarEnFrame {
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String plain = plaintextField.getText();
+                String plain = plaintextArea.getText();
                 if(!regExCheck.checkCh(plain)) { // 明文必须是纯字母
                     JOptionPane.showMessageDialog(null, "明文必须是纯字母", "明文警告", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Caesar caesar = new Caesar();
                     String cipher = caesar.encrypt(plain);
-                    ciptextField.setText(cipher);
+                    ciptextArea.setText(cipher);
                     keytextField.setText(Integer.toString(caesar.key));
                 }
             }
@@ -37,7 +37,7 @@ public class CaesarEnFrame {
     public static void main(String[] args) {
         JFrame frame = new JFrame("CaesarEnFrame");
         frame.setLocation(550, 400);
-        frame.setSize(500, 150);
+        frame.setSize(700, 500);
         frame.setContentPane(new CaesarEnFrame().caesaren);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);

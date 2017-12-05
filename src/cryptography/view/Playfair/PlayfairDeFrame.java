@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 
 public class PlayfairDeFrame {
     private JPanel playfairde;
-    private JTextField ciptextField;
-    private JTextField plaintextField;
+    private JTextArea ciptextArea;
+    private JTextArea plaintextArea;
     private JTextField keytextField;
     private JButton beginButton;
     private JLabel cipLabel;
@@ -21,7 +21,7 @@ public class PlayfairDeFrame {
         beginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cipher = ciptextField.getText();
+                String cipher = ciptextArea.getText();
                 String key = keytextField.getText();
                 if(!regExCheck.checkCh(cipher)) { // 密文必须是纯字母
                     JOptionPane.showMessageDialog(null, "密文必须是纯字母", "密文警告", JOptionPane.ERROR_MESSAGE);
@@ -30,7 +30,7 @@ public class PlayfairDeFrame {
                 } else {
                     Playfair playfair = new Playfair();
                     String plain = playfair.decrypt(cipher, key);
-                    plaintextField.setText(plain);
+                    plaintextArea.setText(plain);
                 }
             }
         });
@@ -39,7 +39,7 @@ public class PlayfairDeFrame {
     public static void main(String[] args) {
         JFrame frame = new JFrame("PlayfairDeFrame");
         frame.setLocation(550, 400);
-        frame.setSize(500, 200);
+        frame.setSize(700, 500);
         frame.setContentPane(new PlayfairDeFrame().playfairde);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 //        frame.pack();

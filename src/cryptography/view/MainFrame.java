@@ -1,5 +1,6 @@
 package cryptography.view;
 
+import cryptography.view.Caesar.CaesarCrFrame;
 import cryptography.view.Caesar.CaesarDeFrame;
 import cryptography.view.Caesar.CaesarEnFrame;
 import cryptography.view.Hill.HillDeFrame;
@@ -21,6 +22,7 @@ public class MainFrame {
     private JPanel methodPanel;
     private JPanel casePanel;
     private JButton beginButton;
+    private JRadioButton crRadioButton;
 
 
     private MainFrame() {
@@ -36,13 +38,17 @@ public class MainFrame {
                     } else {
                         HillEnFrame.main(null);
                     }
-                } else {
+                } else if(deRadioButton.isSelected()) {
                     if(caesarRadioButton.isSelected()) {
                         CaesarDeFrame.main(null);
                     } else if(playfairRadioButton.isSelected()) {
                         PlayfairDeFrame.main(null);
                     } else {
                         HillDeFrame.main(null);
+                    }
+                } else {
+                    if(caesarRadioButton.isSelected()) {
+                        CaesarCrFrame.main(null);
                     }
                 }
             }

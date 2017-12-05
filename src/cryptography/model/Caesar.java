@@ -1,5 +1,7 @@
 package cryptography.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Caesar {
@@ -17,11 +19,20 @@ public class Caesar {
         return solve(ciphertext, key, 1);
     }
 
+    // 破解
+    public List<String> crack(String ciphertext) {
+        List<String> ciplist = new ArrayList<>();
+        for(int i = 0; i < 26; i++) {
+            ciplist.add(decrypt(ciphertext, i));
+        }
+        return ciplist;
+    }
+
     private String solve(String text, int key, int type) {
         key %= 26;
         StringBuilder sb = new StringBuilder();
-        text = text.replace(" ", "");
-        text = text.toUpperCase();
+//        text = text.replace(" ", "");
+//        text = text.toUpperCase();
         int len = text.length();
         for(int i = 0; i < len; i++) {
             char c = text.charAt(i);

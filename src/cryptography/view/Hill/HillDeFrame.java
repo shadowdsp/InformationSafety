@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 
 public class HillDeFrame {
     private JPanel hillde;
-    private JTextField ciptextField;
-    private JTextField plaintextField;
+    private JTextArea ciptextArea;
+    private JTextArea plaintextArea;
     private JLabel cipLabel;
     private JLabel plainLabel;
     private JPanel middlePanel;
@@ -34,7 +34,7 @@ public class HillDeFrame {
         beginbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cipher = ciptextField.getText();
+                String cipher = ciptextArea.getText();
                 // 验证密文是否合法，必须是纯字母
                 if(!regExCheck.checkCh(cipher)) {
                     JOptionPane.showMessageDialog(null, "密文必须是纯字母", "密文警告", JOptionPane.ERROR_MESSAGE);
@@ -53,7 +53,7 @@ public class HillDeFrame {
                     if(!regExCheck.checkNum(mat00) || !regExCheck.checkNum(mat01) || !regExCheck.checkNum(mat02) ||
                             !regExCheck.checkNum(mat10) || !regExCheck.checkNum(mat11) || !regExCheck.checkNum(mat12) ||
                             !regExCheck.checkNum(mat20) || !regExCheck.checkNum(mat21) || !regExCheck.checkNum(mat22)) {
-                        JOptionPane.showMessageDialog(null, "密钥必须是纯数字", "密钥警告", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "密钥必须是非负纯数字", "密钥警告", JOptionPane.ERROR_MESSAGE);
                     } else {
                         // 对矩阵进行操作
                         mat[0][0] = Double.parseDouble(mat00);
@@ -67,7 +67,7 @@ public class HillDeFrame {
                         mat[2][2] = Double.parseDouble(mat22);
                         Hill hill = new Hill();
                         String plain = hill.decrypt(cipher, mat);
-                        plaintextField.setText(plain);
+                        plaintextArea.setText(plain);
                     }
                 }
             }
